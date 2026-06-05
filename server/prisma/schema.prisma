@@ -20,6 +20,7 @@ User oneToMany Comment        [same relation like blog<comment]
 
 model Blog {
   id Int @id @default(autoincrement())
+  title String @unique
   content String
 
   comments Comment[]
