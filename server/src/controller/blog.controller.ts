@@ -14,8 +14,8 @@ const createBlog = async (req: Request, res: Response) => {
   });
 };
 
-const getBlogs = async (req: Request, res: Response) => {
-  const allBlogs = await BlogService.getBlogs();
+const getPublicBlogs = async (req: Request, res: Response) => {
+  const allBlogs = await BlogService.getPubliceBlogs();
   return res.status(200).json({
     status: true,
     data: allBlogs,
@@ -65,6 +65,14 @@ const deleteBlog = async (req: Request, res: Response) => {
   res.status(204).send()
 }
 
-const BlogController = { createBlog, getBlogs, getBlogById, updateBlog, deleteBlog };
+const getAllBlogs = async (req : Request, res: Response) => {
+    const allBlogs = await BlogService.getAllBlogs()
+    res.status(200).json({
+        status : true,
+        data : allBlogs
+    })
+}
+
+const BlogController = { createBlog, getPublicBlogs, getBlogById, updateBlog, deleteBlog, getAllBlogs };
 
 export default BlogController;

@@ -28,16 +28,31 @@ const addBlog = async (data: createBlogInput) => {
   return newBlog;
 };
 
-const getBlogs = async () => {
+const getPubliceBlogs = async () => {
   let blogs;
   try {
-    blogs = await prisma.blog.findMany();
+    blogs = await prisma.blog.findMany({
+      where : {
+        isPrivate : false
+      }
+    });
   } catch (error) {
     console.error(error);
     throw new AppError("Internal Server Error", 500);
   }
   return blogs;
 };
+
+const getAllBlogs = async () => {
+  let allBlogs
+  try {
+    allBlogs = await prisma.blog.findMany()
+  } catch (error) {
+    console.error(error);
+    throw new AppError("Internal Server Error", 500);
+  }
+  return allBlogs
+}
 
 const getBlogById = async (id: number) => {
   let blog;
@@ -109,10 +124,11 @@ const deleteBlog = async (id: number) => {
 
 const BlogService = {
   addBlog,
-  getBlogs,
+  getPubliceBlogs,
   getBlogById,
   updateBlog,
   deleteBlog,
+  getAllBlogs
 };
 
 export default BlogService;
