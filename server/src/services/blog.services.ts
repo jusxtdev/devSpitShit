@@ -1,6 +1,6 @@
 import { prisma } from "../config/db.js";
 import { Prisma } from "../generated/prisma/client.js";
-import { createBlogInput } from "../schema/blog.schema.js";
+import { createBlogInput, updateBlogInput } from "../schema/blog.schema.js";
 import { AppError } from "../utils/appError.js";
 
 const addBlog = async (data: createBlogInput) => {
@@ -29,40 +29,90 @@ const addBlog = async (data: createBlogInput) => {
 };
 
 const getBlogs = async () => {
-  let blogs 
+  let blogs;
   try {
-    blogs = await prisma.blog.findMany()
+    blogs = await prisma.blog.findMany();
   } catch (error) {
     console.error(error);
     throw new AppError("Internal Server Error", 500);
   }
-  return blogs
-}
+  return blogs;
+};
 
-const getBlogById = async(id : number) => {
-  let blog 
+const getBlogById = async (id: number) => {
+  let blog;
   try {
     blog = await prisma.blog.findUniqueOrThrow({
-      where : {
-        id : id
-      }
-    })
+      where: {
+        id: id,
+      },
+    });
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       // Record not found
       if (error.code == "P2025") {
-        throw new AppError("Blog Not found", 404)
+        throw new AppError("Blog Not found", 404);
       }
     }
 
     console.error(error);
     throw new AppError("Internal Server Error", 500);
   }
-  return blog
-}
+  return blog;
+};
+
+const updateBlog = async (id: number, data: updateBlogInput) => {
+  let updated;
+  try {
+    updated = await prisma.blog.update({
+      where: {
+        id: id,
+      },
+      data: {
+        title: data.title,
+        content: data.content,
+      },
+    });
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      // Record not found
+      if (error.code == "P2025") {
+        throw new AppError("Product Not Found", 404);
+      }
+    }
+
+    console.error(error);
+    throw new AppError("Internal Server Error", 500);
+  }
+  return updated;
+};
+
+const deleteBlog = async (id: number) => {
+  try {
+    await prisma.blog.delete({
+      where: {
+        id: id,
+      },
+    });
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      // Record not found
+      if (error.code == "P2025") {
+        throw new AppError("Product Not Found", 404);
+      }
+    }
+
+    console.error(error);
+    throw new AppError("Internal Server Error", 500);
+  }
+};
 
 const BlogService = {
-  addBlog, getBlogs, getBlogById
+  addBlog,
+  getBlogs,
+  getBlogById,
+  updateBlog,
+  deleteBlog,
 };
 
 export default BlogService;

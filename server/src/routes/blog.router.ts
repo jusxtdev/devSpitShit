@@ -11,4 +11,9 @@ router.get("/", BlogController.getBlogs)
 
 router.get("/:id", BlogController.getBlogById)
 
+router.patch("/:id", BlogController.updateBlog)
+
+router.delete("/:id", BlogController.deleteBlog)
+
+
 export default router;

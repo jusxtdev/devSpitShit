@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createBlogInput } from "../schema/blog.schema.js";
+import { createBlogInput, updateBlogInput } from "../schema/blog.schema.js";
 import BlogService from "../services/blog.services.js";
 import { AppError } from "../utils/appError.js";
 
@@ -23,20 +23,48 @@ const getBlogs = async (req: Request, res: Response) => {
 };
 
 const getBlogById = async (req: Request, res: Response) => {
-    const blogId = Number(req.params.id)
-    
-    if (Number.isNaN(blogId)){
-        throw new AppError("Invalid Blog Id", 422)
-    }
+  const blogId = Number(req.params.id);
 
-    const blog = await BlogService.getBlogById(blogId)
+  if (Number.isNaN(blogId)) {
+    throw new AppError("Invalid Blog Id", 422);
+  }
 
-    res.status(200).json({
-        status : true,
-        data : blog
-    })
-} 
+  const blog = await BlogService.getBlogById(blogId);
 
-const BlogController = { createBlog, getBlogs, getBlogById };
+  res.status(200).json({
+    status: true,
+    data: blog,
+  });
+};
+
+const updateBlog = async (req: Request, res: Response) => {
+  const blogId = Number(req.params.id);
+  const data: updateBlogInput = req.body;
+
+  if (Number.isNaN(blogId)) {
+    throw new AppError("Invalid Blog Id", 422);
+  }
+
+  const updated = await BlogService.updateBlog(blogId, data);
+
+  res.status(200).json({
+    status: true,
+    data: updated,
+  });
+};
+
+const deleteBlog = async (req: Request, res: Response) => {
+  const blogId = Number(req.params.id);
+
+  if (Number.isNaN(blogId)) {
+    throw new AppError("Invalid Blog Id", 422);
+  }
+
+  await BlogService.deleteBlog(blogId)
+
+  res.status(204).send()
+}
+
+const BlogController = { createBlog, getBlogs, getBlogById, updateBlog, deleteBlog };
 
 export default BlogController;
