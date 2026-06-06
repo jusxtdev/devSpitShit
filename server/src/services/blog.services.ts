@@ -18,7 +18,7 @@ const addBlog = async (data: createBlogInput) => {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       // Record already exists
       if (error.code == "P2002") {
-        throw new AppError("Product already exists", 409);
+        throw new AppError("Blog already exists", 409);
       }
     }
 
@@ -92,7 +92,7 @@ const updateBlog = async (id: number, data: updateBlogInput) => {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       // Record not found
       if (error.code == "P2025") {
-        throw new AppError("Product Not Found", 404);
+        throw new AppError("Blog Not Found", 404);
       }
     }
 
@@ -113,7 +113,7 @@ const deleteBlog = async (id: number) => {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       // Record not found
       if (error.code == "P2025") {
-        throw new AppError("Product Not Found", 404);
+        throw new AppError("Blog Not Found", 404);
       }
     }
 

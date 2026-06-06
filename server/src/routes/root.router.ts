@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import blogRouter from "./blog.router.js"
+import authRouter from "./authentication.router.js"
 
 const router = express.Router();
 
@@ -9,5 +10,6 @@ router.get("/health", (req: Request, res: Response) => {
 });
 
 router.use("/blogs", blogRouter)
+router.use("/auth", authRouter)
 
 export default router;

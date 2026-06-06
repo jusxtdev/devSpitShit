@@ -30,11 +30,16 @@ model Blog {
   updatedAt DateTime @updatedAt
 }
 
+enum Role {
+  USER
+  ADMIN
+}
 
 model User {
   id Int @id @default(autoincrement())
   username String @unique
   password String
+  role Role? @default(USER)
 
   comments Comment[]
 

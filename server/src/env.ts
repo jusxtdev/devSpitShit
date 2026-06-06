@@ -11,6 +11,9 @@ export const env = createEnv({
   server: {
     PORT: z.coerce.number(),
     DATABASE_URL: z.url(),
+    JWT_SECRET : z.string(),
+    JWT_EXPIRES_IN : z.coerce.number(),
+    NODE_ENV : z.string()
   },
   runtimeEnv: process.env,
 });
