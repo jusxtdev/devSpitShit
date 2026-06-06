@@ -4,7 +4,7 @@ import express, {Request, Response} from "express"
 import cookieParser from "cookie-parser"
 import router from "./routes/root.router.js"
 import { AppError } from "./utils/appError.js"
-import { errorHandler } from "./middleware/errorHandler.js"
+import { errorHandler } from "./middleware/errorHandler.middleware.js"
 
 config()
 

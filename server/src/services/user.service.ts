@@ -65,9 +65,38 @@ const findUserByUsername = async (username: string) => {
   return user
 };
 
+const findUserById = async (id: number) => {
+  let user;
+  try {
+    user = await prisma.user.findUniqueOrThrow({
+      where: {
+        id : id,
+      },
+      select: {
+        id: true,
+        username: true,
+        role: true,
+        createdAt: true,
+        password : true
+      },
+    });
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      // Record not found
+      if (error.code == "P2025") {
+        return null;
+      }
+    }
+    console.error(error);
+    throw new AppError("Internal Server Error", 500);
+  }
+  return user
+};
+
 const UserService = {
   createUser,
-  findUserByUsername
+  findUserByUsername,
+  findUserById
 };
 
 export default UserService;
