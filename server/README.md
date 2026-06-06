@@ -5,4 +5,7 @@ Entities - Blog, Comment, User
 
 ### Auth
 - Only username + password auth + JWT (header + cookie)
-- 
+
+### Blog
+- All users can Read
+- Only ADMIN can POST, PATCH, DELETE
