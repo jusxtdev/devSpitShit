@@ -3,6 +3,7 @@ import { validate } from "../middleware/validate.middleware.js";
 import BlogSchema from "../schema/blog.schema.js";
 import BlogController from "../controller/blog.controller.js";
 import authenticate from "../middleware/authenticate.middleware.js";
+import authorize from "../middleware/authorize.middleware.js";
 
 const router = express.Router();
 
@@ -17,12 +18,12 @@ router.post(
 router.get("/", BlogController.getPublicBlogs);
 
 // All blogs (public/private) accessible by ADMIN only
-router.get("/all", authenticate, BlogController.getAllBlogs);
+router.get("/all", authenticate, authorize(["ADMIN"]), BlogController.getAllBlogs);
 
 router.get("/:id", BlogController.getBlogById);
 
-router.patch("/:id", authenticate, BlogController.updateBlog);
+router.patch("/:id", authenticate, authorize(["ADMIN"]), BlogController.updateBlog);
 
-router.delete("/:id", authenticate, BlogController.deleteBlog);
+router.delete("/:id", authenticate, authorize(["ADMIN"]), BlogController.deleteBlog);
 
 export default router;

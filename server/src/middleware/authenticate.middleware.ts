@@ -36,7 +36,7 @@ const authenticate = async (
   }
 
   // store user info in req
-  req.user = {
+  req.user  = {
     userId: decoded.userId,
     role: decoded.role,
   };
