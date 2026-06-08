@@ -1,4 +1,5 @@
 import BlogCard from "../components/BlogCard";
+import { useTheme } from "../hooks/useTheme";
 
 const MOCK_DATA = [
   {
@@ -184,15 +185,17 @@ While newer technologies such as GraphQL have gained popularity, REST remains wi
 ];
 
 function Blogs() {
+  const { isDark } = useTheme();
+
   return (
     <div className="flex justify-center">
       <div className="w-full max-w-6xl py-24 px-16">
         {/* Section heading */}
         <div className="flex flex-col items-center mb-16 animate-fade-in-up">
-          <p className="font-iosveka text-5xl tracking-tight text-[#171717]">
+          <p className={`font-iosveka text-5xl tracking-tight transition-colors duration-300 ${isDark ? "text-[#e8dcc8]" : "text-[#171717]"}`}>
             Blogs
           </p>
-          <div className="mt-3 w-10 h-px bg-[#171717]" />
+          <div className={`mt-3 w-10 h-px transition-colors duration-300 ${isDark ? "bg-[#e8dcc8]" : "bg-[#171717]"}`} />
         </div>
 
         {/* Blog grid */}

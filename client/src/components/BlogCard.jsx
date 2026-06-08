@@ -1,7 +1,10 @@
+import { useTheme } from "../hooks/useTheme";
+
 function BlogCard({ title, createdAt, coverURL }) {
+  const { isDark } = useTheme();
+
   return (
     <div className="group flex flex-col cursor-pointer">
-      {/* Cover image */}
       <div id="cover" className="overflow-hidden rounded-sm">
         <img
           src={coverURL}
@@ -10,12 +13,11 @@ function BlogCard({ title, createdAt, coverURL }) {
         />
       </div>
 
-      {/* Blog info */}
       <div id="blog-info" className="pt-4 pb-2 flex flex-col gap-1">
-        <p className="text-base font-medium text-[#171717] leading-snug">
+        <p className={`text-base font-medium leading-snug transition-colors duration-300 ${isDark ? "text-[#e8dcc8]" : "text-[#171717]"}`}>
           {title}
         </p>
-        <p className="text-xs text-[#a3a3a3] font-iosveka tracking-wide">
+        <p className={`text-xs font-iosveka tracking-wide transition-colors duration-300 ${isDark ? "text-[#8a8aa0]" : "text-[#a3a3a3]"}`}>
           {new Date(createdAt).toLocaleDateString("en-US", {
             month: "short",
             day: "numeric",
@@ -24,8 +26,7 @@ function BlogCard({ title, createdAt, coverURL }) {
         </p>
       </div>
 
-      {/* Border line on hover */}
-      <div className="h-px w-0 bg-[#171717] group-hover:w-full transition-all duration-300 ease-out" />
+      <div className={`h-px w-0 group-hover:w-full transition-all duration-300 ease-out ${isDark ? "bg-[#e8dcc8]" : "bg-[#171717]"}`} />
     </div>
   );
 }
