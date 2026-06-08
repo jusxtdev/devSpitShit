@@ -1,8 +1,13 @@
+import Hero from "../components/Hero";
+import Blogs from "./Blogs";
+
 function Landing() {
-    return <div>
-        <div className="text-4xl">Uses normal font</div>
-        <div className="font-iosveka text-4xl">Uses Roboto font</div>
-        </div>;
+  return (
+    <div className="flex flex-col justify-center">
+      <Hero />
+      <Blogs />
+    </div>
+  );
 }
 
 export default Landing;
